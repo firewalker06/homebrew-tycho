@@ -1,8 +1,8 @@
 class Tycho < Formula
   desc "Local-first terminal dashboard for Kamal projects and managed coding agents"
   homepage "https://github.com/firewalker06/tycho"
-  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "f39437ca44a02205555840cd226145b72c9a91a0921aa2d2d27729320758a0f4"
+  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.1.1.tar.gz"
+  sha256 "169b071fd16518e885b0ef53b88cc4978ec631c2fe208f04688a8a7a1382bad7"
   license "MIT"
   head "https://github.com/firewalker06/tycho.git", branch: "main"
 
