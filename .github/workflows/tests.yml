@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-14, macos-26]
+        os: [macos-26]
         include:
           - os: ubuntu-latest
             container: ghcr.io/homebrew/brew:main
@@ -52,4 +52,57 @@ jobs:
         with:
           name: bottles_${{ matrix.os }}
           path: '*.bottle.*'
+          retention-days: 7
+
+  intel-bottle:
+    if: github.event_name == 'pull_request'
+    runs-on: macos-15-intel
+    permissions:
+      actions: read
+      checks: read
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache Homebrew Bundler RubyGems
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: macos-15-intel-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: macos-15-intel-rubygems-
+
+      - name: Build Intel bottle
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          pkg_version="$(brew ruby -e 'f = Formulary.factory("firewalker06/tycho/tycho"); puts f.pkg_version')"
+          root_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/tycho-${pkg_version}"
+
+          brew uninstall --formula --force --ignore-dependencies firewalker06/tycho/tycho || true
+          brew install --build-bottle firewalker06/tycho/tycho
+          brew audit --formula firewalker06/tycho/tycho --online --git --skip-style
+          brew test firewalker06/tycho/tycho
+          brew linkage --test firewalker06/tycho/tycho
+
+          if find "$(brew --prefix tycho)/libexec" -name mkmf.log -print -quit | grep -q .; then
+            echo "mkmf.log files remain in the installed keg:"
+            find "$(brew --prefix tycho)/libexec" -name mkmf.log -print
+            exit 1
+          fi
+
+          brew bottle --json --root-url="${root_url}" firewalker06/tycho/tycho
+
+      - name: Upload Intel bottle as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bottles_macos-15-intel
+          path: '*.bottle.*'
+          if-no-files-found: error
           retention-days: 7
