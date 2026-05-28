@@ -4,7 +4,7 @@ class Tycho < Formula
   url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.2.0.tar.gz"
   sha256 "62104d6e860dc31b6969e27979a5b79d218628cfe07b0ccdd3aea871e0aaea55"
   license "MIT"
-  revision 2
+  revision 3
   head "https://github.com/firewalker06/tycho.git", branch: "main"
 
   bottle do
