@@ -8,6 +8,7 @@ class Tycho < Formula
   head "https://github.com/firewalker06/tycho.git", branch: "main"
 
   depends_on "go" => :build
+  depends_on "openssl@3"
   depends_on "ruby"
 
   def install
@@ -19,6 +20,9 @@ class Tycho < Formula
     system "bundle", "install", "--jobs", ENV.make_jobs.to_s
     system "gem", "build", "hq.gemspec"
     system "gem", "install", "hq-#{version}.gem", "--no-document"
+
+    # Remove native-extension build logs to avoid shims references in bottles.
+    rm Dir["#{libexec}/extensions/*/*/*/mkmf.log"]
 
     env = {
       GEM_HOME: ENV["GEM_HOME"],
