@@ -1,18 +1,10 @@
 class Tycho < Formula
   desc "Local-first terminal dashboard for Kamal projects and managed coding agents"
   homepage "https://github.com/firewalker06/tycho"
-  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.2.0.tar.gz"
-  sha256 "62104d6e860dc31b6969e27979a5b79d218628cfe07b0ccdd3aea871e0aaea55"
+  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.2.1.tar.gz"
+  sha256 "6081c25c2f9f50f7a377db8949a3f0e8f8c112ecf20a87f9125b8201e524b8b5"
   license "MIT"
-  revision 3
   head "https://github.com/firewalker06/tycho.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/firewalker06/homebrew-tycho/releases/download/tycho-0.2.0_3"
-    sha256 cellar: :any,                 arm64_tahoe:  "c4ac6dd4f0291d02149544be33a741b2f72a9c27e33821d2b5602ebe73010f4c"
-    sha256 cellar: :any,                 sequoia:      "11141565e3ed893d587e853b80a650b5dacdcb3c8315aae504c76c8d16429279"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "48d7f88834e287225b137b13df67e8283f0c2048b190b58500f549d889934e50"
-  end
 
   depends_on "go" => :build
   depends_on "openssl@3"
@@ -77,6 +69,7 @@ class Tycho < Formula
     ENV["TYCHO_LOGS_ROOT"] = state
 
     assert_match "Usage:", shell_output("#{bin}/tycho --help 2>&1")
+    assert_match "Tycho doctor: ok", shell_output("#{bin}/tycho doctor")
     assert_match "No projects", shell_output("#{bin}/tycho app list")
     assert_match "No schedules", shell_output("#{bin}/tycho schedule list")
     assert_path_exists state/"runtime/tycho" if OS.mac?
