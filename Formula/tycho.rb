@@ -1,5 +1,5 @@
 class Tycho < Formula
-  desc "Local-first terminal dashboard for Kamal projects and managed coding agents"
+  desc "Local-first coding agent orchestration and Kamal dashboard"
   homepage "https://github.com/firewalker06/tycho"
   url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.3.0.tar.gz"
   sha256 "9ea89201cee666f00d246da74dc8290d5bdadfbfbbf006cec77ac625e6ccdac1"
