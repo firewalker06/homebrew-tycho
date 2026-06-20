@@ -1,15 +1,16 @@
 class Tycho < Formula
   desc "Local-first coding agent orchestration and Kamal dashboard"
   homepage "https://github.com/firewalker06/tycho"
-  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.6.0.tar.gz"
-  sha256 "e8b56e705c99d6d10ccaedf1b041291edf719aba681385aa22a57aa6e598801e"
+  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.5.0.tar.gz"
+  sha256 "2313d68fd46bd00071290c38eae5845ede2fb6693910dfc9a1f4e66d7010b919"
   license "MIT"
   head "https://github.com/firewalker06/tycho.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/firewalker06/homebrew-tycho/releases/download/tycho-0.6.0"
-    rebuild 1
-    sha256 cellar: :any, arm64_sequoia: "5a8764e793b2dedfb66219fa3b0f2e8b1bd8d49b2b56d90a94d349257c3946fd"
+    root_url "https://github.com/firewalker06/homebrew-tycho/releases/download/tycho-0.5.0"
+    sha256 cellar: :any, arm64_tahoe:  "bbab9f8e91fb2278a66520a250bfd12a2a53e24b22858f85153ed0f151afb145"
+    sha256 cellar: :any, sequoia:      "6062d901a806a4408971bc1bc2b8aec6198ab6f181b4661e49543411983ed2c8"
+    sha256 cellar: :any, x86_64_linux: "d90e45ad3ad084bc638420822c03b6f5ebf1c1b46a2e333a477cf204c08cc852"
   end
 
   depends_on "go" => :build
@@ -29,18 +30,12 @@ class Tycho < Formula
     # Remove native-extension build logs to avoid shims references in bottles.
     rm Dir["#{libexec}/extensions/*/*/*/mkmf.log"]
 
-    (bin/"tycho").write <<~SH
-      #!/bin/bash
-      for key in ${!BUNDLE@} ${!BUNDLER@}; do
-        unset "$key"
-      done
-      unset GEM_HOME GEM_PATH RUBYLIB RUBYOPT
-      export GEM_HOME="#{ENV["GEM_HOME"]}"
-      export GEM_PATH="#{ENV["GEM_PATH"]}"
-      export PATH="#{Formula["ruby"].opt_bin}:$PATH"
-      exec "#{libexec}/bin/tycho" "$@"
-    SH
-    chmod 0755, bin/"tycho"
+    env = {
+      GEM_HOME: ENV["GEM_HOME"],
+      GEM_PATH: ENV["GEM_PATH"],
+      PATH:     "#{Formula["ruby"].opt_bin}:$PATH",
+    }
+    (bin/"tycho").write_env_script libexec/"bin/tycho", env
   end
 
   def caveats
