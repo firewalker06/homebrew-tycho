@@ -23,12 +23,18 @@ class Tycho < Formula
     # Remove native-extension build logs to avoid shims references in bottles.
     rm Dir["#{libexec}/extensions/*/*/*/mkmf.log"]
 
-    env = {
-      GEM_HOME: ENV["GEM_HOME"],
-      GEM_PATH: ENV["GEM_PATH"],
-      PATH:     "#{Formula["ruby"].opt_bin}:$PATH",
-    }
-    (bin/"tycho").write_env_script libexec/"bin/tycho", env
+    (bin/"tycho").write <<~SH
+      #!/bin/bash
+      for key in ${!BUNDLE@} ${!BUNDLER@}; do
+        unset "$key"
+      done
+      unset GEM_HOME GEM_PATH RUBYLIB RUBYOPT
+      export GEM_HOME="#{ENV["GEM_HOME"]}"
+      export GEM_PATH="#{ENV["GEM_PATH"]}"
+      export PATH="#{Formula["ruby"].opt_bin}:$PATH"
+      exec "#{libexec}/bin/tycho" "$@"
+    SH
+    chmod 0755, bin/"tycho"
   end
 
   def caveats
