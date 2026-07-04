@@ -1,17 +1,10 @@
 class Tycho < Formula
-  desc "Local-first coding agent orchestration and Kamal dashboard"
+  desc "Local-first coding agent supervisor and scheduler"
   homepage "https://github.com/firewalker06/tycho"
-  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.6.1.tar.gz"
-  sha256 "525ce970ea1cdad5d8a1ca01ac4394831c4b777e25f2df3b63edf56c737586db"
+  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.7.0.tar.gz"
+  sha256 "1fcc10acdf958fe5f255c13b86b0f5375e25452573789ab196c575a8c2f5fcea"
   license "MIT"
   head "https://github.com/firewalker06/tycho.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/firewalker06/homebrew-tycho/releases/download/tycho-0.6.1"
-    sha256 cellar: :any, arm64_tahoe:  "068168354a746e5e2ac344da3ce437a8e00e02bd96cc724a69eb0362db3c6dc6"
-    sha256 cellar: :any, sequoia:      "ced9380a54324448f5598573ce074c2a88cc5ca30a7f778a324e8c7f59ad43b7"
-    sha256 cellar: :any, x86_64_linux: "05ca0a0305cfdd85644233e41f47c5d7c8991e6d128a4b0033b60b2bb3f39ee4"
-  end
 
   depends_on "go" => :build
   depends_on "openssl@3"
@@ -33,7 +26,7 @@ class Tycho < Formula
     env = {
       GEM_HOME: ENV["GEM_HOME"],
       GEM_PATH: ENV["GEM_PATH"],
-      PATH:     "#{Formula["ruby"].opt_bin}:$PATH",
+      PATH:     "#{formula_opt_bin("ruby")}:$PATH",
     }
     (bin/"tycho").write_env_script libexec/"bin/tycho", env
   end
@@ -77,7 +70,7 @@ class Tycho < Formula
 
     assert_match "Usage:", shell_output("#{bin}/tycho --help 2>&1")
     assert_match "Tycho doctor: ok", shell_output("#{bin}/tycho doctor")
-    assert_match "No projects", shell_output("#{bin}/tycho app list")
+    assert_match "No agents found.", shell_output("#{bin}/tycho agent list")
     assert_match "No schedules", shell_output("#{bin}/tycho schedule list")
     assert_path_exists state/"runtime/tycho" if OS.mac?
   end
