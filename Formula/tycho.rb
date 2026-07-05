@@ -6,6 +6,14 @@ class Tycho < Formula
   license "MIT"
   head "https://github.com/firewalker06/tycho.git", branch: "main"
 
+  bottle do
+    root_url "https://github.com/firewalker06/homebrew-tycho/releases/download/tycho-0.7.2"
+    rebuild 1
+    sha256 cellar: :any, arm64_tahoe:  "8e35794e3fbf64883d150f2fdd0bce6d4555fa6b6d66ca63cfee842772d3b760"
+    sha256 cellar: :any, sequoia:      "ecfa6b9a39703f91e12afc472c128f17bbc8deacc05f5af53399d46f8f1fb66e"
+    sha256 cellar: :any, x86_64_linux: "c080d38592017a76a025cdce9cbe35c5cd4c0866b50d105f97ecc0cf1afc45d4"
+  end
+
   # Temporary formula touch for brew pr-pull bottle publication.
 
   depends_on "go" => :build
