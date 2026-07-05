@@ -6,6 +6,8 @@ class Tycho < Formula
   license "MIT"
   head "https://github.com/firewalker06/tycho.git", branch: "main"
 
+  # Temporary formula touch for brew pr-pull bottle publication.
+
   depends_on "go" => :build
   depends_on "openssl@3"
   depends_on "ruby"
