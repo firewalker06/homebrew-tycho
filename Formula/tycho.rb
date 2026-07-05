@@ -14,8 +14,6 @@ class Tycho < Formula
     sha256 cellar: :any, x86_64_linux: "c080d38592017a76a025cdce9cbe35c5cd4c0866b50d105f97ecc0cf1afc45d4"
   end
 
-  # Temporary formula touch for brew pr-pull bottle publication.
-
   depends_on "go" => :build
   depends_on "openssl@3"
   depends_on "ruby"
