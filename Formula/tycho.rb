@@ -1,17 +1,10 @@
 class Tycho < Formula
   desc "Local-first coding agent supervisor and scheduler"
   homepage "https://github.com/firewalker06/tycho"
-  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.7.4.tar.gz"
-  sha256 "acad911e143979e8d8b63a0e2df128339d16b6ff0eb706f276f7f40caa24ab5e"
+  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.8.0.tar.gz"
+  sha256 "7d35ea0f374965bafa6237069e69bec594364027a82f3f47e39b64d49e9d40df"
   license "MIT"
   head "https://github.com/firewalker06/tycho.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/firewalker06/homebrew-tycho/releases/download/tycho-0.7.4"
-    sha256 cellar: :any, arm64_tahoe:  "db51bd8f0205f6db308182229eec6b26514ad24a2aa0cb1a36392223b3427b0d"
-    sha256 cellar: :any, sequoia:      "3f52a65ad1e221084c0f2cbe0dfa62fec4f9fdf6a8a6f43508292c29656e79af"
-    sha256 cellar: :any, x86_64_linux: "4bff8a86ed1031b1604d0dd43eb9bacccce2c16db51d6191beb61d6ef0871bdc"
-  end
 
   depends_on "go" => :build
   depends_on "openssl@3"
