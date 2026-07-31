@@ -1,8 +1,8 @@
 class Tycho < Formula
   desc "Local-first coding agent supervisor and scheduler"
   homepage "https://github.com/firewalker06/tycho"
-  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.8.0.tar.gz"
-  sha256 "7d35ea0f374965bafa6237069e69bec594364027a82f3f47e39b64d49e9d40df"
+  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.9.0.tar.gz"
+  sha256 "4762d682b90390c87cce2d39ac14cd2dc1836f11a846a1bff89409a2874524ca"
   license "MIT"
   head "https://github.com/firewalker06/tycho.git", branch: "main"
 
