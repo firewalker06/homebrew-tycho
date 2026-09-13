@@ -1,17 +1,10 @@
 class Tycho < Formula
   desc "Local-first coding agent supervisor and scheduler"
   homepage "https://github.com/firewalker06/tycho"
-  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.10.2.tar.gz"
-  sha256 "c341a132699ff8a833982b37292c1eaef0422d648f3d441a2175e04f4cabfc96"
+  url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.11.0.tar.gz"
+  sha256 "a991d6a15dc087db4fab6b68000f8d488f187d16926aae3ebe60fa2efc8ef40a"
   license "MIT"
   head "https://github.com/firewalker06/tycho.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/firewalker06/homebrew-tycho/releases/download/tycho-0.10.2"
-    sha256 cellar: :any, arm64_tahoe:  "6a7e00fef34e4cb88657f57d0df02ed23e17c80f67e67533ab7a6f0fafeff144"
-    sha256 cellar: :any, sequoia:      "04d45eca0914f603bf9697b0fb913b94e143776dbaac41c31a356d3355724f52"
-    sha256 cellar: :any, x86_64_linux: "66dec45864a56a4ab8d4e8f90f3653d341df70c667f26ec3966562062604152f"
-  end
 
   depends_on "go" => :build
   depends_on "openssl@3"
@@ -22,6 +15,8 @@ class Tycho < Formula
     ENV["BUNDLE_WITHOUT"] = "development test"
     ENV["GEM_HOME"] = libexec
     ENV["GEM_PATH"] = libexec
+    # Charm Ruby ships its Go archives in platform-specific gems.
+    ENV.delete("BUNDLE_FORCE_RUBY_PLATFORM")
 
     system "bundle", "install", "--jobs", ENV.make_jobs.to_s
     system "gem", "build", "hq.gemspec"
