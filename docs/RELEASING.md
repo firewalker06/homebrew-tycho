@@ -59,12 +59,19 @@ Before the first bottled release, confirm these settings in `firewalker06/homebr
    The Intel job intentionally bypasses `brew test-bot --only-formulae` because the free Intel runner can skip bottle creation when dependencies do not have matching Intel bottles for that runner. It still runs:
 
    ```sh
+   brew install --build-from-source --only-dependencies firewalker06/tycho/tycho
    brew install --build-bottle firewalker06/tycho/tycho
    brew audit --formula firewalker06/tycho/tycho --online --git --skip-style
    brew test firewalker06/tycho/tycho
    brew linkage --test firewalker06/tycho/tycho
    brew bottle --json --root-url=...
    ```
+
+   The source-only dependency step is intentional for the Tier 3 Intel runner:
+   it lets Homebrew compile dependencies when matching Intel bottles are
+   unavailable. The subsequent `--build-bottle` command remains required, so
+   the job still builds, audits, tests, links, and uploads the Tycho Intel
+   bottle rather than bypassing that gate.
 
    The workflow uploads temporary artifacts named `bottles_<runner>`. For Intel macOS, confirm the artifact `bottles_macos-15-intel` contains a bottle like `tycho--<version>.sequoia.bottle.tar.gz`. A plain `sequoia` tag means Intel macOS; Apple Silicon bottles are tagged with `arm64_`.
 

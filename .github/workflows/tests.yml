@@ -87,6 +87,7 @@ jobs:
 
           brew uninstall --formula --force --ignore-dependencies firewalker06/tycho/tycho || true
           brew install --build-from-source go openssl@3
+          brew install --build-from-source --only-dependencies firewalker06/tycho/tycho
           brew install --build-bottle firewalker06/tycho/tycho
           brew audit --formula firewalker06/tycho/tycho --online --git --skip-style
           brew test firewalker06/tycho/tycho
