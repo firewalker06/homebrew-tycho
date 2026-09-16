@@ -6,6 +6,12 @@ class Tycho < Formula
   license "MIT"
   head "https://github.com/firewalker06/tycho.git", branch: "main"
 
+  bottle do
+    root_url "https://github.com/firewalker06/homebrew-tycho/releases/download/tycho-0.11.1"
+    sha256 cellar: :any, arm64_tahoe:  "8c73556ea2175b9c44ae73a83d0eba5d41a8b3e9f0dcc4574055add647e61779"
+    sha256 cellar: :any, x86_64_linux: "24a29ccbb756a939b8292a03e1af623680b07b57774db8110c34e647bd9e10ed"
+  end
+
   depends_on "go" => :build
   depends_on "openssl@3"
   depends_on "ruby"
