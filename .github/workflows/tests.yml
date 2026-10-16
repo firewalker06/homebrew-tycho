@@ -54,7 +54,7 @@ jobs:
           python="$(brew --prefix python@3.14)/bin/python3.14"
           tap="$(brew --repository firewalker06/tycho)"
           "$python" "$tap/test/verify_bottles_test.py"
-          version="$(brew info --json=v2 firewalker06/tycho/tycho | ruby -rjson -e 'puts JSON.parse(STDIN.read).fetch("formulae").first.fetch("versions").fetch("stable")')"
+          version="$(brew info --json=v2 firewalker06/tycho/tycho | brew ruby -rjson -e 'puts JSON.parse(STDIN.read).fetch("formulae").first.fetch("versions").fetch("stable")')"
           tag="$(brew ruby -e 'require "utils/bottles"; puts Utils::Bottles.tag')"
           "$python" "$tap/scripts/verify-bottles.py" --version "$version" --tag "$tag"
 
