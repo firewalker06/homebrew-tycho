@@ -69,8 +69,9 @@ Before the first bottled release, confirm these settings in `firewalker06/homebr
    `scripts/verify-bottles.py --version VERSION --tag BOTTLE_TAG` verifies real
    test-bot outputs and writes `bottle-verification.json`; it does not build or
    fabricate bottles. The formula selects its declared openssl@3 dependency for
-   the locked Ruby OpenSSL extension through BUNDLE_BUILD__OPENSSL and places
-   its headers and libraries first in Homebrew superenv search paths.
+   the locked Ruby OpenSSL extension through BUNDLE_BUILD__OPENSSL with both
+   --with-openssl-dir and --with-opt-dir. The latter overrides Ruby's recorded
+   dependency directory before mkmf creates extension search paths.
 
    CI does not replace the local build, test, and uninstall in step 3. If an
    older version is installed, record its keg and active services first. Disable

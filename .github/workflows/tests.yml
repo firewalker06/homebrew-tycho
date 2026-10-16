@@ -50,10 +50,12 @@ jobs:
         if: always() && github.event_name == 'pull_request'
         shell: bash
         run: |
-          python3 test/verify_bottles_test.py
+          brew install python@3.14
+          python="$(brew --prefix python@3.14)/bin/python3.14"
+          "$python" test/verify_bottles_test.py
           version="$(brew info --json=v2 firewalker06/tycho/tycho | ruby -rjson -e 'puts JSON.parse(STDIN.read).fetch("formulae").first.fetch("versions").fetch("stable")')"
           tag="$(brew ruby -e 'require "utils/bottles"; puts Utils::Bottles.tag')"
-          python3 scripts/verify-bottles.py --version "$version" --tag "$tag"
+          "$python" scripts/verify-bottles.py --version "$version" --tag "$tag"
 
       - name: Upload bottles as artifact
         if: always() && github.event_name == 'pull_request'
@@ -66,5 +68,6 @@ jobs:
             brew-test-bot.xml
             steps_output.txt
             skipped_or_failed_formulae-*.txt
+            logs/tycho/**
           if-no-files-found: error
           retention-days: 7

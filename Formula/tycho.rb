@@ -13,10 +13,9 @@ class Tycho < Formula
   def install
     ENV["BUNDLE_VERSION"] = "system"
     ENV["BUNDLE_WITHOUT"] = "development test"
-    # Superenv reorders extension flags; keep the declared OpenSSL ahead of Ruby's.
-    ENV.prepend_path "HOMEBREW_INCLUDE_PATHS", formula_opt_include("openssl@3")
-    ENV.prepend_path "HOMEBREW_LIBRARY_PATHS", formula_opt_lib("openssl@3")
-    ENV["BUNDLE_BUILD__OPENSSL"] = "--with-openssl-dir=#{formula_opt_prefix("openssl@3")}"
+    # Override Ruby's recorded opt-dir as well as the OpenSSL extension directory.
+    openssl = formula_opt_prefix("openssl@3")
+    ENV["BUNDLE_BUILD__OPENSSL"] = "--with-openssl-dir=#{openssl} --with-opt-dir=#{openssl}"
     ENV["GEM_HOME"] = libexec
     ENV["GEM_PATH"] = libexec
     # Charm Ruby ships its Go archives in platform-specific gems.
