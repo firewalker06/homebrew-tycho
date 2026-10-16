@@ -4,13 +4,8 @@ class Tycho < Formula
   url "https://github.com/firewalker06/tycho/archive/refs/tags/v0.14.0.tar.gz"
   sha256 "3f980c03ea349eab19523a3268c02c72962b49e7fed48e668df97db61e611eb2"
   license "MIT"
+  revision 1
   head "https://github.com/firewalker06/tycho.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/firewalker06/homebrew-tycho/releases/download/tycho-0.14.0"
-    sha256 cellar: :any, arm64_tahoe:  "70c3bf7977a8f5f317e1c5fe44c8d4b8f7cbc0b8c9cc5f5391883e5c20eda578"
-    sha256 cellar: :any, x86_64_linux: "51e2a96eb53d81ebfd1e1014670a23e7eb37ecbfc5c39c294663c317f283b696"
-  end
 
   depends_on "go" => :build
   depends_on "openssl@3"

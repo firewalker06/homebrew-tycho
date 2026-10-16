@@ -80,14 +80,22 @@ Before the first bottled release, confirm these settings in `firewalker06/homebr
    new version. Do not restart services or remove config and runtime state.
    Stop if required dependency changes cannot preserve the active runtime.
 
-   The standard matrix builds Apple Silicon macOS and Linux bottles with
+   The standard matrix builds Apple Silicon macOS 15 and 26 plus Linux bottles with
    `brew test-bot --only-formulae`. Do not add an Intel macOS job, artifact, or
    checksum: v0.11.0 is the last Tycho Intel bottle, and v0.11.1 and later
    ship no Intel macOS bottle.
 
    The workflow uploads temporary artifacts named `bottles_<runner>`. Confirm
-   that the run contains only the Apple Silicon macOS and Linux artifacts
-   before publishing.
+   that the run contains Apple Silicon arm64_sequoia and arm64_tahoe plus
+   x86_64_linux artifacts before publishing. A macOS 26 bottle cannot validate
+   installation on macOS 15: confirm the native minimum OS and matching host tag.
+   Never count a silent source fallback as a published-bottle test.
+
+   For packaging-only fixes, increment the formula revision and remove obsolete
+   bottle checksums. Keep the upstream version/tag unchanged. Verification must
+   use formula.pkg_version (including the revision), not only versions.stable.
+   Publish revised bottles only after exact-head tests, artifact checks, review,
+   and operator publication authorization.
 
 6. Publish the bottles.
 
