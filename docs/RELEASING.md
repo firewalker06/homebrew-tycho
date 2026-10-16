@@ -52,7 +52,28 @@ Before the first bottled release, confirm these settings in `firewalker06/homebr
    tycho 0.1.1
    ```
 
-5. Wait for the `brew test-bot` workflow to pass.
+5. Wait for the `brew test-bot` workflow and required bottle verification to pass.
+
+   A green test-bot summary alone is not proof of a build: Homebrew can ignore
+   failures for a new version that has no current bottle. The verification step
+   requires no failed/ignored/skipped formula steps, a passed installed-formula
+   test in JUnit, and a real bottle matching version, platform, and JSON SHA-256.
+   Missing output fails the job. Inspect both full logs and downloaded artifacts.
+
+   Run the guard regression checks from the tap root with:
+
+   ```sh
+   python3 test/verify_bottles_test.py
+   ```
+
+   `scripts/verify-bottles.py --version VERSION --tag BOTTLE_TAG` verifies real
+   test-bot outputs and writes `bottle-verification.json`; it does not build or
+   fabricate bottles. The formula selects its declared openssl@3 dependency for
+   the locked Ruby OpenSSL extension through BUNDLE_BUILD__OPENSSL.
+
+   Do not replace an operational local Tycho installation to validate a release.
+   Use the existing isolated test-bot runners for build/install/test checks, then
+   perform installed-bottle checks after authorized publication.
 
    The standard matrix builds Apple Silicon macOS and Linux bottles with
    `brew test-bot --only-formulae`. Do not add an Intel macOS job, artifact, or

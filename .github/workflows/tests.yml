@@ -43,13 +43,28 @@ jobs:
 
       - run: brew test-bot --only-tap-syntax
 
-      - run: brew test-bot --only-formulae
+      - run: brew test-bot --only-formulae --junit --fail-fast
         if: github.event_name == 'pull_request'
+
+      - name: Verify required build, test, and bottle output
+        if: always() && github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          python3 test/verify_bottles_test.py
+          version="$(brew info --json=v2 firewalker06/tycho/tycho | ruby -rjson -e 'puts JSON.parse(STDIN.read).fetch("formulae").first.fetch("versions").fetch("stable")')"
+          tag="$(brew ruby -e 'require "utils/bottles"; puts Utils::Bottles.tag')"
+          python3 scripts/verify-bottles.py --version "$version" --tag "$tag"
 
       - name: Upload bottles as artifact
         if: always() && github.event_name == 'pull_request'
         uses: actions/upload-artifact@v4
         with:
           name: bottles_${{ matrix.os }}
-          path: '*.bottle.*'
+          path: |
+            *.bottle.*
+            bottle-verification.json
+            brew-test-bot.xml
+            steps_output.txt
+            skipped_or_failed_formulae-*.txt
+          if-no-files-found: error
           retention-days: 7

@@ -13,6 +13,7 @@ class Tycho < Formula
   def install
     ENV["BUNDLE_VERSION"] = "system"
     ENV["BUNDLE_WITHOUT"] = "development test"
+    ENV["BUNDLE_BUILD__OPENSSL"] = "--with-openssl-dir=#{formula_opt_prefix("openssl@3")}"
     ENV["GEM_HOME"] = libexec
     ENV["GEM_PATH"] = libexec
     # Charm Ruby ships its Go archives in platform-specific gems.
@@ -70,6 +71,7 @@ class Tycho < Formula
     ENV["TYCHO_SCHEDULES_ROOT"] = schedules
     ENV["TYCHO_LOGS_ROOT"] = state
 
+    assert_match "Tycho #{version}", shell_output("#{bin}/tycho --version")
     assert_match "Usage:", shell_output("#{bin}/tycho --help 2>&1")
     assert_match "Tycho doctor: ok", shell_output("#{bin}/tycho doctor")
     assert_match "No agents found.", shell_output("#{bin}/tycho agent list")
