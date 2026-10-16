@@ -13,6 +13,9 @@ class Tycho < Formula
   def install
     ENV["BUNDLE_VERSION"] = "system"
     ENV["BUNDLE_WITHOUT"] = "development test"
+    # Superenv reorders extension flags; keep the declared OpenSSL ahead of Ruby's.
+    ENV.prepend_path "HOMEBREW_INCLUDE_PATHS", formula_opt_include("openssl@3")
+    ENV.prepend_path "HOMEBREW_LIBRARY_PATHS", formula_opt_lib("openssl@3")
     ENV["BUNDLE_BUILD__OPENSSL"] = "--with-openssl-dir=#{formula_opt_prefix("openssl@3")}"
     ENV["GEM_HOME"] = libexec
     ENV["GEM_PATH"] = libexec

@@ -69,11 +69,15 @@ Before the first bottled release, confirm these settings in `firewalker06/homebr
    `scripts/verify-bottles.py --version VERSION --tag BOTTLE_TAG` verifies real
    test-bot outputs and writes `bottle-verification.json`; it does not build or
    fabricate bottles. The formula selects its declared openssl@3 dependency for
-   the locked Ruby OpenSSL extension through BUNDLE_BUILD__OPENSSL.
+   the locked Ruby OpenSSL extension through BUNDLE_BUILD__OPENSSL and places
+   its headers and libraries first in Homebrew superenv search paths.
 
-   Do not replace an operational local Tycho installation to validate a release.
-   Use the existing isolated test-bot runners for build/install/test checks, then
-   perform installed-bottle checks after authorized publication.
+   CI does not replace the local build, test, and uninstall in step 3. If an
+   older version is installed, record its keg and active services first. Disable
+   automatic cleanup for the validation commands, preserve the old keg, and use
+   supported Homebrew uninstall/link commands to restore it after testing the
+   new version. Do not restart services or remove config and runtime state.
+   Stop if required dependency changes cannot preserve the active runtime.
 
    The standard matrix builds Apple Silicon macOS and Linux bottles with
    `brew test-bot --only-formulae`. Do not add an Intel macOS job, artifact, or
