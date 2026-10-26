@@ -6,7 +6,6 @@ class Tycho < Formula
   license "MIT"
   head "https://github.com/firewalker06/tycho.git", branch: "main"
 
-
   depends_on "go" => :build
   depends_on "openssl@3"
   depends_on "ruby"
