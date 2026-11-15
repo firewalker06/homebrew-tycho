@@ -7,9 +7,9 @@ class Tycho < Formula
   head "https://github.com/firewalker06/tycho.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/firewalker06/homebrew-tycho/releases/download/tycho-0.15.0"
-    sha256 cellar: :any, arm64_tahoe:  "5e251037ba1839a6e755781355cd3835bf4da3c32d0c6269e05c4b826969cac5"
-    sha256 cellar: :any, x86_64_linux: "79363b97ddd7bca05be3c455456c968241a15128a44af4c1e51bae9f0ca33553"
+    root_url "https://github.com/firewalker06/homebrew-tycho/releases/download/tycho-0.16.0"
+    sha256 cellar: :any, arm64_tahoe:  "e0e5818e2701605ad064e8676fa9e06a7d5ccfda6a09bfc0a5ffab19018f521b"
+    sha256 cellar: :any, x86_64_linux: "4ac9070157f2adf6e9bef5b6d4877e6139d5a6e6f16c893a03314dc419d33909"
   end
 
   depends_on "go" => :build
