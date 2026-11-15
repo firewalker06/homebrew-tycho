@@ -16,6 +16,8 @@ class Tycho < Formula
   depends_on "openssl@3"
   depends_on "ruby"
 
+  uses_from_macos "libffi"
+
   def install
     ENV["BUNDLE_VERSION"] = "system"
     ENV["BUNDLE_WITHOUT"] = "development test"
